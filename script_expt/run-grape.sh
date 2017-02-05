@@ -7,6 +7,7 @@ then
 	echo "param4 numWorker: 4, 8,... 16"
 	exit
 fi
+source /home/grape/cpp/conf/grape.env
 
 # config
 fragEachWork=4
@@ -35,7 +36,10 @@ gzipEnable=""
 
 resultPath="/home/grape/crdataset/exp_result/${algorithm}/${location}_${dataset}_n${numWorker}_${DATE}"
 log="/home/grape/crdataset/exp_log/${algorithm}/${location}_${dataset}_n${numWorker}_${DATE}"
-query_dir="/home/grape/crdataset/grape-data/test/${algorithm}-query"
+query_dir="/home/grape/crdataset/grape-data/exp_query/${algorithm}/${dataset}/run"
+
+mkdir -p $resultPath
+mkdir -p $log
 
 # config
 
@@ -127,7 +131,6 @@ done < "$GRAPE_HOME/cpp/conf/workers"
 
 # return back and run
 cd $GRAPE_HOME/cpp
-pwd
 
 echo "mpiexec.hydra -n ${numProcs} --hostfile ./conf/workers ./build/$algorithm --vfile ${vfile} --efile ${efile} --rfile ${rfile} --nfrag ${numFrag} --file_location ${fileSource} --log_dir ${log} --result_dir ${resultPath} --query_dir ${query_dir} --nointeractive ${verbose} ${gzipEnable}"
 mpiexec.hydra -n ${numProcs} --hostfile ./conf/workers ./build/$algorithm --vfile ${vfile} --efile ${efile} --rfile ${rfile} --nfrag ${numFrag} --file_location ${fileSource} --log_dir ${log} --result_dir ${resultPath} --query_dir ${query_dir} --nointeractive ${verbose} ${gzipEnable}
