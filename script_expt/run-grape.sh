@@ -7,7 +7,6 @@ then
 	echo "param4 numWorker: 4, 8,... 16"
 	exit
 fi
-source /home/grape/cpp/conf/grape.env
 
 # config
 fragEachWork=4
@@ -30,7 +29,7 @@ numWorker=$4
 DATE=`date +%Y%m%d-%H%M%S`
 
 numFrag=`expr $numWorker \* $fragEachWork`
-numProcs=`expr $numWorker \* 4 + 1`
+numProcs=`expr $numWorker + 1`
 gzipEnable=""
 
 
@@ -110,7 +109,7 @@ fi
 
 
 # cp files
-cp machines_$numWorker $GRAPE_HOME/cpp/conf/workers
+cp $GRAPE_HOME/cpp/conf/machines_$numWorker $GRAPE_HOME/cpp/conf/workers
 
 # build
 cd $GRAPE_HOME/cpp
